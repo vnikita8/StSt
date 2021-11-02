@@ -5,7 +5,6 @@ C:\Users\EHOT\source\repos\StSt\bin\Debug\netcoreapp3.1\StSt.runtimeconfig.dev.j
 C:\Users\EHOT\source\repos\StSt\bin\Debug\netcoreapp3.1\StSt.dll
 C:\Users\EHOT\source\repos\StSt\bin\Debug\netcoreapp3.1\StSt.pdb
 C:\Users\EHOT\source\repos\StSt\obj\Debug\netcoreapp3.1\StSt.csproj.AssemblyReference.cache
-C:\Users\EHOT\source\repos\StSt\obj\Debug\netcoreapp3.1\StSt.AbstractFigure.resources
 C:\Users\EHOT\source\repos\StSt\obj\Debug\netcoreapp3.1\StSt.csproj.GenerateResource.cache
 C:\Users\EHOT\source\repos\StSt\obj\Debug\netcoreapp3.1\StSt.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\EHOT\source\repos\StSt\obj\Debug\netcoreapp3.1\StSt.AssemblyInfoInputs.cache
@@ -14,3 +13,4 @@ C:\Users\EHOT\source\repos\StSt\obj\Debug\netcoreapp3.1\StSt.csproj.CoreCompileI
 C:\Users\EHOT\source\repos\StSt\obj\Debug\netcoreapp3.1\StSt.dll
 C:\Users\EHOT\source\repos\StSt\obj\Debug\netcoreapp3.1\StSt.pdb
 C:\Users\EHOT\source\repos\StSt\obj\Debug\netcoreapp3.1\StSt.genruntimeconfig.cache
+C:\Users\EHOT\source\repos\StSt\obj\Debug\netcoreapp3.1\StSt.Form1.resources
