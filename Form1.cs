@@ -356,6 +356,7 @@ namespace StSt
             cBMaterials.Items.Add("Fe");
             cBMaterials.Items.Add("Ni");
             radioButton3.Text = "Конус";
+            button2.Text = "Треугольное основание";
         }
 
         private void button2_Click(object sender, EventArgs e)
