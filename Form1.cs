@@ -204,8 +204,8 @@ namespace StSt
         public Konus(double h, double osn, TypeOfMetal m) : base(h, osn, m) { }
         public override void Calc()
         {
-            deformHeight = Math.Round(origHeight - ((origHeight*1.8) / ((double)material)), 3);
-            this.deformOsnov = Math.Round(Math.Sqrt(this.origHeight * Math.Pow(this.origOsnov, 2) / this.deformHeight)*0.9, 3);
+            deformHeight = Math.Round(origHeight - ((origHeight) / ((double)material)), 3);
+            this.deformOsnov = Math.Round(Math.Sqrt(this.origHeight * Math.Pow(this.origOsnov, 2) / this.deformHeight), 3);
         }
 
         public override void Draw(PictureBox pic, double scale)
@@ -266,7 +266,83 @@ namespace StSt
         }
     }
 
-        public partial class Form1 : Form
+    class TreugParral : AbstractFigure
+    {
+        public TreugParral() : base() { }
+        public TreugParral(double h, double osn, TypeOfMetal m) : base(h, osn, m) { }
+        public override void Calc()
+        {
+            deformHeight = Math.Round(origHeight - (origHeight / (double)material), 3);
+            this.deformOsnov = Math.Round(Math.Sqrt(this.origHeight * Math.Pow(this.origOsnov, 2) / this.deformHeight), 3);
+        }
+
+        public override void Draw(PictureBox pic, double scale)
+        {
+            try
+            {
+                Graphics myGraph = pic.CreateGraphics();
+                myGraph.Clear(Color.White);
+                Pen pen = new Pen(Color.Black);
+
+                int height = Convert.ToInt32(origHeight * scale);
+                int osnov = Convert.ToInt32(origOsnov * scale);
+                int defHeight = Convert.ToInt32(deformHeight * scale);
+                int defOsnov = Convert.ToInt32(deformOsnov * scale);
+
+                int y_Start = (pic.Height / 2) - (height / 2);
+                int x_Start = (pic.Width / 2) - (osnov / 2);
+                int def_x_Start = (pic.Width / 2) - (defOsnov / 2);
+
+                //orig
+                Point A = new Point(x_Start, y_Start);
+                Point B = new Point(x_Start + osnov / 3, A.Y - osnov / 3);
+                Point C = new Point(x_Start + osnov, A.Y);
+
+                Point E = new Point(A.X, A.Y + height);
+                Point D = new Point(C.X, E.Y);
+
+                myGraph.DrawLine(pen, A, C);
+                myGraph.DrawLine(pen, A, B);
+                myGraph.DrawLine(pen, C, B);
+                myGraph.DrawLine(pen, C, D);
+                myGraph.DrawLine(pen, E, D);
+                myGraph.DrawLine(pen, A, E);
+
+                //deform
+                Point E_d = new Point(def_x_Start, E.Y + defHeight/15);
+                Point D_d = new Point(E_d.X + defOsnov, E_d.Y);
+                Point A_d = new Point(E_d.X, E_d.Y - defHeight);
+                Point C_d = new Point(D_d.X, D_d.Y - defHeight);
+                Point B_d = new Point(A_d.X + defOsnov / 3, A_d.Y - defOsnov / 3);
+
+                myGraph.DrawLine(pen, A_d, C_d);
+                myGraph.DrawLine(pen, A_d, B_d);
+                myGraph.DrawLine(pen, C_d, B_d);
+                myGraph.DrawLine(pen, C_d, D_d);
+                myGraph.DrawLine(pen, E_d, D_d);
+                myGraph.DrawLine(pen, A_d, E_d);
+
+                if ((height < 110 & osnov < 120) | (osnov < 110 & height < 120))
+                    Draw(pic, scale + 0.1);
+
+                List<Point> points = new List<Point>() { C, A, D, B,E, C_d, A_d, D_d, E_d, B_d};
+                foreach (Point pro_point in points)
+                {
+                    if (pro_point.X <= 0 | pro_point.Y <= 0 | pro_point.X >= pic.Width | pro_point.Y >= pic.Height)
+                    {
+                        Draw(pic, scale - 0.001);
+                        break;
+                    }
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Ошибка");
+            }
+        }
+    }
+
+    public partial class Form1 : Form
     {
         public Form1()
         {
@@ -279,12 +355,47 @@ namespace StSt
             cBMaterials.Items.Add("Al");
             cBMaterials.Items.Add("Fe");
             cBMaterials.Items.Add("Ni");
-            
+            radioButton3.Text = "Конус";
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            try
+            {
+                TypeOfMetal m;
+                switch (cBMaterials.SelectedIndex)
+                {
+                    case 0:
+                        m = TypeOfMetal.Cu;
+                        break;
+                    case 1:
+                        m = TypeOfMetal.Al;
+                        break;
+                    case 2:
+                        m = TypeOfMetal.Fe;
+                        break;
+                    default:
+                        m = TypeOfMetal.Ni;
+                        break;
+                }
+                AbstractFigure dump;
+
+                double diametr = double.Parse(textBox1.Text);
+                double height = double.Parse(textBox2.Text);
+
+                dump = new TreugParral(height, diametr, m);
+
+                dump.Calc();
+                tBHeigReturn.Text = dump.deformHeight.ToString();
+                tBOsnReturn.Text = dump.deformOsnov.ToString();
+                dump.Draw(pictureBox1, 1);
+            }
+            catch
+            {
+                MessageBox.Show("Ошибка");
+            }
+            
+            //Application.Exit();
         }
         private void button1_Click(object sender, EventArgs e)
         {
@@ -327,7 +438,7 @@ namespace StSt
                 tBOsnReturn.Text = dump.deformOsnov.ToString();
                 dump.Draw(pictureBox1, 1);
 
-                //Draw(pictureBox1, 1);
+
             }
             catch
             {
@@ -345,7 +456,7 @@ namespace StSt
             int origHeight = 200;
             int origOsnov = 100;
             int deformHeight = 100;
-            int deformOsnov = 200;
+            int deformOsnov = 100;
 
             int height = Convert.ToInt32(origHeight * scale);
             int osnov = Convert.ToInt32(origOsnov * scale);
@@ -354,41 +465,37 @@ namespace StSt
 
             int y_Start = (pic.Height / 2) - (height / 2);
             int x_Start = (pic.Width / 2) - (osnov / 2);
-            int def_x_Start = x_Start - (defOsnov / 2);
+            int def_x_Start = (pic.Width / 2) - (defOsnov / 2);
 
             //orig
             Point A = new Point(x_Start, y_Start);
-            Point B = new Point(x_Start - osnov / 2, y_Start + height);
-            Point C = new Point(x_Start + osnov / 2, y_Start + height);
+            Point B = new Point(x_Start + osnov / 3, A.Y - osnov/3);
+            Point C = new Point(x_Start + osnov, A.Y);
+
+            Point E = new Point(A.X, A.Y + height);
+            Point D = new Point(C.X, E.Y);
 
             myGraph.DrawLine(pen, A, C);
             myGraph.DrawLine(pen, A, B);
-            myGraph.DrawEllipse(pen, B.X, B.Y - osnov/6, osnov, osnov / 3);
+            myGraph.DrawLine(pen, C, B);
+            myGraph.DrawLine(pen, C, D);
+            myGraph.DrawLine(pen, E, D);
+            myGraph.DrawLine(pen, A, E);
 
             //deform
-            Point A_d = new Point(def_x_Start, B.Y);
-            Point B_d = new Point(A_d.X + defOsnov / 6, A_d.Y - defHeight);
-            Point C_d = new Point(A_d.X + defOsnov, A_d.Y);
-            Point D_d = new Point(C_d.X - defOsnov / 6, C_d.Y - defHeight);
+            Point E_d = new Point(def_x_Start, E.Y);
+            Point D_d = new Point(E_d.X + defOsnov, E_d.Y);
+            Point A_d = new Point(E_d.X, E_d.Y - defHeight);
+            Point C_d = new Point(D_d.X, D.Y - defHeight);
+            Point B_d = new Point(A_d.X + defOsnov/3, A_d.Y - defOsnov/3);
 
+            myGraph.DrawLine(pen, A_d, C_d);
             myGraph.DrawLine(pen, A_d, B_d);
+            myGraph.DrawLine(pen, C_d, B_d);
             myGraph.DrawLine(pen, C_d, D_d);
-            myGraph.DrawEllipse(pen, A_d.X, A_d.Y - defOsnov / 6, defOsnov, defOsnov / 3);
-            int defOsnov2 = Convert.ToInt32(defOsnov / 1.5);
-            myGraph.DrawEllipse(pen, B_d.X, B_d.Y - defOsnov2 / 6, defOsnov2, defOsnov2 / 3);
+            myGraph.DrawLine(pen, E_d, D_d);
+            myGraph.DrawLine(pen, A_d, E_d);
 
-            if ((height < 110 & osnov < 300) | (osnov < 110 & height < 300))
-                Draw(pic, scale + 0.1);
-
-            List<Point> points = new List<Point>() { C, A, B, C_d, A_d, D_d, B_d};
-            foreach (Point pro_point in points)
-            {
-                if (pro_point.X <= 0 | pro_point.Y <= 0 | pro_point.X >= pic.Width | pro_point.Y >= pic.Height)
-                {
-                    Draw(pic, scale - 0.001);
-                    break;
-                }
-            }
 
         }
     }
