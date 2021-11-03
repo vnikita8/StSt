@@ -6,9 +6,8 @@
       "version": "3.1.0"
     },
     "additionalProbingPaths": [
-      "C:\\Users\\EHOT\\.dotnet\\store\\|arch|\\|tfm|",
-      "C:\\Users\\EHOT\\.nuget\\packages",
-      "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      "C:\\Users\\Andro1d\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\Andro1d\\.nuget\\packages"
     ],
     "configProperties": {
       "Microsoft.NETCore.DotNetHostPolicy.SetAppPaths": true
