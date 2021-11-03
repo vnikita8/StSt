@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\EHOT\\source\\repos\\StSt\\StSt.csproj": {}
+    "D:\\repos\\StSt\\StSt.csproj": {}
   },
   "projects": {
-    "C:\\Users\\EHOT\\source\\repos\\StSt\\StSt.csproj": {
+    "D:\\repos\\StSt\\StSt.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\EHOT\\source\\repos\\StSt\\StSt.csproj",
+        "projectUniqueName": "D:\\repos\\StSt\\StSt.csproj",
         "projectName": "StSt",
-        "projectPath": "C:\\Users\\EHOT\\source\\repos\\StSt\\StSt.csproj",
-        "packagesPath": "C:\\Users\\EHOT\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\EHOT\\source\\repos\\StSt\\obj\\",
+        "projectPath": "D:\\repos\\StSt\\StSt.csproj",
+        "packagesPath": "C:\\Users\\Andro1d\\.nuget\\packages\\",
+        "outputPath": "D:\\repos\\StSt\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\EHOT\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\Andro1d\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

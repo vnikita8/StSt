@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ using System.Windows.Forms;
 namespace StSt
 {
     enum TypeOfMetal : int { Cu = 2, Al = 3, Fe = 4, Ni = 5 }
-
+    
     public partial class Form1 : Form
     {
         public Form1()
@@ -19,18 +20,25 @@ namespace StSt
             InitializeComponent();
         }
 
+        //создание пустого bitmap
+        public Bitmap bitmap = new Bitmap(Convert.ToInt32(560), Convert.ToInt32(500), System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+        
         private void Form1_Load(object sender, EventArgs e)
         {
             cBMaterials.Items.Add("Cu");
             cBMaterials.Items.Add("Al");
             cBMaterials.Items.Add("Fe");
             cBMaterials.Items.Add("Ni");
+
+           
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
+       
+       
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -72,7 +80,10 @@ namespace StSt
                 dump.Calc();
                 tBHeigReturn.Text = dump.deformHeight.ToString();
                 tBOsnReturn.Text = dump.deformOsnov.ToString();
-                dump.Draw(pictureBox1, 1);
+
+                //для сохранения картинки необходима привязка к Bitmap
+                pictureBox1.Image = bitmap;
+                dump.Draw(pictureBox1, bitmap, 1);
                 //Draw(pictureBox1, 1);
             }
             catch
@@ -81,9 +92,9 @@ namespace StSt
             }
         }
 
-        private void Draw(PictureBox pic, double scale)
+        private void Draw(PictureBox pic,  Bitmap  bitmap,double scale)
         {
-            Graphics myGraph = pic.CreateGraphics();
+            Graphics myGraph = Graphics.FromImage(bitmap);
             myGraph.Clear(Color.White);
             Pen pen = new Pen(Color.Black);
 
@@ -141,6 +152,16 @@ namespace StSt
             myGraph.DrawLine(pen, A_d, C_d);
             myGraph.DrawLine(pen, B_d, C_d);
         }
+
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+            if (saveFileDialog1.ShowDialog() == DialogResult.Cancel)
+                return;
+            saveFileDialog1.Filter = "Png images (*.png)|*.png| All files(*.*)|*.*";
+            ImageFormat format = ImageFormat.Png;
+            bitmap.Save(saveFileDialog1.FileName, format);
+            MessageBox.Show("Файл сохранен");
+        }
     }
 
     abstract class AbstractFigure
@@ -166,7 +187,7 @@ namespace StSt
         }
 
         public abstract void Calc();
-        public abstract void Draw(PictureBox pic, double scale);
+        public abstract void Draw(PictureBox pic,  Bitmap  bitmap,double scale);
     }
 
     class Cylinder : AbstractFigure
@@ -179,9 +200,9 @@ namespace StSt
             this.deformOsnov = Math.Round(2 * Math.Sqrt(this.origHeight * Math.Pow((this.origOsnov * 0.5), 2) / this.deformHeight), 3);
         }
 
-        public override void Draw(PictureBox pic, double scale)
+        public override void Draw(PictureBox pic,  Bitmap  bitmap,double scale)
         {
-            Graphics myGraph = pic.CreateGraphics();
+            Graphics myGraph = Graphics.FromImage(bitmap);
             myGraph.Clear(Color.White);
             Pen pen = new Pen(Color.Black);
 
@@ -218,14 +239,14 @@ namespace StSt
             myGraph.DrawEllipse(pen, C_d.X, C_d.Y - defOsnov / 6, defOsnov, defOsnov / 3);
 
             if ((height < 110 & osnov < 300) | (osnov < 110 & height < 300))
-                Draw(pic, scale + 0.1);
+                Draw(pic,bitmap, scale + 0.1);
 
             List<Point> points = new List<Point>() { C, A, D, B, C_d, A_d, D_d, B_d };
             foreach (Point pro_point in points)
             {
                 if (pro_point.X <= 0 | pro_point.Y <= 0 | pro_point.X >= pic.Width | pro_point.Y >= pic.Height - defOsnov / 6)
                 {
-                    Draw(pic, scale - 0.01);
+                    Draw(pic,bitmap, scale - 0.01);
                     break;
                 }
             }
@@ -241,9 +262,10 @@ namespace StSt
             this.deformOsnov = Math.Round(Math.Sqrt(this.origHeight * Math.Pow(this.origOsnov, 2) / this.deformHeight), 3);
         }
 
-        public override void Draw(PictureBox pic, double scale)
+        //для сохранения картинки необходима привязка к Bitmap
+        public override void Draw(PictureBox pic,  Bitmap  bitmap,double scale)
         {
-            Graphics myGraph = pic.CreateGraphics();
+            Graphics myGraph = Graphics.FromImage(bitmap);
             myGraph.Clear(Color.White);
             Pen pen = new Pen(Color.Black, 2);
 
@@ -304,14 +326,14 @@ namespace StSt
             myGraph.DrawLine(pen, A_d, B_d);
 
             if ((height < 110 & osnov < 120) | (osnov < 110 & height < 120))
-                Draw(pic, scale + 0.1);
+                Draw(pic,bitmap, scale + 0.1);
 
             List<Point> points = new List<Point>() { C, A, D, B, C2, D2, B2, C2_d, C_d, A_d, D_d, D2_d, B_d, B2_d };
             foreach (Point pro_point in points)
             {
                 if (pro_point.X <= 0 | pro_point.Y <= 0 | pro_point.X >= pic.Width | pro_point.Y >= pic.Height)
                 {
-                    Draw(pic, scale - 0.001);
+                    Draw(pic,bitmap, scale - 0.001);
                     break;
                 }
             }
@@ -328,9 +350,9 @@ namespace StSt
             this.deformOsnov = Math.Round(Math.Sqrt(this.origHeight * Math.Pow(this.origOsnov, 2) / this.deformHeight), 3);
         }
 
-        public override void Draw(PictureBox pic, double scale)
+        public override void Draw(PictureBox pic,  Bitmap  bitmap,double scale)
         {
-            Graphics myGraph = pic.CreateGraphics();
+            Graphics myGraph = Graphics.FromImage(pic.Image);
             myGraph.Clear(Color.White);
             Pen pen = new Pen(Color.Black);
 
@@ -366,14 +388,14 @@ namespace StSt
             myGraph.DrawEllipse(pen, B_d.X, B_d.Y - defOsnov2 / 6, defOsnov2, defOsnov2 / 3);
 
             if ((height < 110 & osnov < 110) | (osnov < 110 & height < 110))
-                Draw(pic, scale + 0.01);
+                Draw(pic,bitmap, scale + 0.01);
 
             List<Point> points = new List<Point>() { C, A, B, C_d, A_d, D_d, B_d };
             foreach (Point pro_point in points)
             {
                 if (pro_point.X <= 0 | pro_point.Y <= 0 | pro_point.X >= pic.Width | pro_point.Y >= pic.Height)
                 {
-                    Draw(pic, scale - 0.001);
+                    Draw(pic,bitmap, scale - 0.001);
                     break;
                 }
             }
@@ -390,9 +412,9 @@ namespace StSt
             this.deformOsnov = Math.Round(Math.Sqrt(this.origHeight * Math.Pow(this.origOsnov, 2) / this.deformHeight), 3);
         }
 
-        public override void Draw(PictureBox pic, double scale)
+        public override void Draw(PictureBox pic,  Bitmap  bitmap,double scale)
         {
-            Graphics myGraph = pic.CreateGraphics();
+            Graphics myGraph = Graphics.FromImage(bitmap);
             myGraph.Clear(Color.White);
             Pen pen = new Pen(Color.Black);
 
@@ -447,14 +469,14 @@ namespace StSt
             myGraph.DrawLine(pen, B_d, C_d);
 
             if ((height < 110 & osnov < 120) | (osnov < 110 & height < 120))
-                Draw(pic, scale + 0.1);
+                Draw(pic,bitmap, scale + 0.1);
 
             List<Point> points = new List<Point>() { C, A, D, B, E,F, C_d, A_d, D_d, E_d, B_d, F_d };
             foreach (Point pro_point in points)
             {
                 if (pro_point.X <= 0 | pro_point.Y <= 0 | pro_point.X >= pic.Width | pro_point.Y >= pic.Height)
                 {
-                    Draw(pic, scale - 0.001);
+                    Draw(pic,bitmap, scale - 0.001);
                     break;
                 }
             }
