@@ -8,19 +8,24 @@
     ".NETCoreApp,Version=v3.1": []
   },
   "packageFolders": {
-    "C:\\Users\\Andro1d\\.nuget\\packages\\": {}
+    "C:\\Users\\EHOT\\.nuget\\packages\\": {},
+    "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\repos\\StSt\\StSt.csproj",
+      "projectUniqueName": "C:\\Users\\EHOT\\Documents\\GitHub\\StSt\\StSt.csproj",
       "projectName": "StSt",
-      "projectPath": "D:\\repos\\StSt\\StSt.csproj",
-      "packagesPath": "C:\\Users\\Andro1d\\.nuget\\packages\\",
-      "outputPath": "D:\\repos\\StSt\\obj\\",
+      "projectPath": "C:\\Users\\EHOT\\Documents\\GitHub\\StSt\\StSt.csproj",
+      "packagesPath": "C:\\Users\\EHOT\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\EHOT\\Documents\\GitHub\\StSt\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\Andro1d\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\EHOT\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

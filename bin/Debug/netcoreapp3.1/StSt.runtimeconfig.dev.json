@@ -1,8 +1,9 @@
 {
   "runtimeOptions": {
     "additionalProbingPaths": [
-      "C:\\Users\\Andro1d\\.dotnet\\store\\|arch|\\|tfm|",
-      "C:\\Users\\Andro1d\\.nuget\\packages"
+      "C:\\Users\\EHOT\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\EHOT\\.nuget\\packages",
+      "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
     ]
   }
 }

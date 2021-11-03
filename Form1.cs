@@ -100,7 +100,7 @@ namespace StSt
 
             int origHeight = 200;
             int origOsnov = 100;
-            int deformHeight = 100;
+            int deformHeight = 100; 
             int deformOsnov = 150;
 
             int height = Convert.ToInt32(origHeight * scale);
